@@ -1,0 +1,78 @@
+<%- layout('layouts/layout.ejs')%>
+<div class="w-75 m-auto mt-3" style="min-height: 100%">
+    <% if (username) { %>
+        <form action="/news" method="post" class="w-100 m-auto mb-5 mt-5" enctype="multipart/form-data">
+            <h4 class="text-center">Додати новину</h4>
+            <div class="mb-3">
+                <label for="title" class="form-label">Заголовок</label>
+                <input type="text" class="form-control" id="title" name="title" />
+            </div>
+            <div class="mb-3">
+                <label for="photo" class="form-label">Фото</label>
+                <input class="form-control" type="file" id="photo" name="photo" />
+            </div>
+            <div class="mb-3">
+                <label for="text" class="form-label">Текст</label>
+                <input type="text" class="form-control" id="text" name="text" />
+            </div>
+            <button type="submit" class="btn btn-outline-dark w-100">Додати</button>
+        </form>
+    <% } %>
+    <!-- <form action="/find" method="get" class="w-100 m-auto mt-5 mb-5">
+        <div class="mb-3 text-center">
+            <label for="title" class="form-label">
+                <h4>Пошук новин</h4>
+            </label>
+            <input type="text" class="form-control" id="title" name="title" />
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exactMatch" name="exactMatch" />
+            <label class="form-check-label" for="exactMatch">Повний збіг</label>
+        </div>
+        <button type="submit" class="btn btn-outline-dark w-100">Пошук</button>
+    </form> -->
+    <% if (username) { %>
+        <form action="/sort" method="get" class="w-100 m-auto">
+            <button type="submit" class="btn btn-outline-dark w-100">Сортувати</button>
+        </form>
+    <% } %>
+    <div class="row hidden-md-up my-5">
+        <% if (autos.length) { %>
+            <% autos.forEach(auto => { %>
+                <div class="col-md-4">
+                    <div class="card" style="margin-bottom: 1em; min-height: 20em;">
+                        <div class="card-block">
+                            <div class="group">
+                                <img class="card-img-top image" style="object-fit: cover; height: 8em;"
+                                 src="<%= auto.pictureURL %>" />
+                            </div>
+                            <h4 class="card-title mx-3 mt-3"><%= auto.model %></h4>
+                            <p class="card-text mx-3 mb-3"><%= auto.manufacturer %></p>
+                            <p class="card-text mx-3 mb-3"><%= auto.releaseYear %></p>
+                            <p class="card-text mx-3 mb-3"><%= auto.engineCapacity %></p>
+                            <p class="card-text mx-3 mb-3"><%= auto.price %></p>
+                            <p class="card-text mx-3 mb-3"><%= auto.color %></p>
+                            <% if (auto.description) {%>
+                                <p class="card-text mx-3 mb-3"><%= auto.description %></p>
+                            <%}%>
+                        </div>
+                        <% if (username) { %>
+                            <div class="edits" style="display: inline-flex; margin-top: auto;">
+                                <form action="/news/<%= auto.id %>" method="post" class="w-50">
+                                    <input type="hidden" name="_method" value="PUT" />
+                                    <button style="height: 40px;" class="w-100" type="submit"><i
+                                            class="bi bi-pen"></i></button>
+                                </form>
+                                <form action="/news/<%= auto.id %>" method="post" class="w-50">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button style="height: 40px;" class="w-100" type="submit"><i
+                                            class="bi bi-trash"></i></button>
+                                </form>
+                            </div>
+                        <%}%>
+                    </div>
+                </div>
+            <%})%>
+        <%}%>
+    </div>
+</div>
