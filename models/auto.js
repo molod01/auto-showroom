@@ -11,7 +11,7 @@ const autoSchema = new mongoose.Schema(
 		pictureURL: String,
 		description: String
 	},
-	{ versionKey: false }
+	{ versionKey: false, collection: 'autos' }
 );
 
 const Auto = mongoose.model('Auto', autoSchema);

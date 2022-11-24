@@ -17,10 +17,10 @@ export const create = (req, res, next) => {
 }
 
 export const readById = (req, res, next) => {
-    const id = req.params.id;
+	const id = req.params.id;
     Auto.findById(id)
 		.then(result => {
-			req.car = result;
+			req.auto = result;
 			next();
 		})
 		.catch(err => {

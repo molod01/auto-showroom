@@ -1,7 +1,9 @@
-import { Router } from "express";
-import multer from "multer";
 import path from "path";
+import multer from "multer";
 import methodOverride from "method-override";
+import filter from "../middleware/filter.js";
+import verifyToken from "../middleware/auth.js"
+import { Router } from "express";
 import { 
 	readAll, 
 	create,
@@ -9,23 +11,9 @@ import {
 	updateById,
 	deleteById
 } from "../controllers/auto.controller.js"
+
 const router = Router();
 const __dirname = path.resolve();
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     req.body.id = news.length ? news.length : 1;
-
-//     const destination = path.join(__dirname, "views", (req.body.id + 1).toString());
-//     if (!fs.existsSync(destination)) {
-//       fs.mkdirSync(destination);
-//     }
-//     cb(null, destination);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   },
-// });
-// const upload = multer({ storage: storage });
 
 router.use(methodOverride("X-HTTP-Method"));
 router.use(methodOverride("X-HTTP-Method-Override"));
@@ -41,24 +29,24 @@ router.use(
   })
 );
 router.route('/')
-	.get(readAll, (req, res) => {
+	.get(readAll, filter, (req, res) => {
 		res.render("showcase", {
-			title: 'auto-showcase',
 			autos: req.autos,
-			username: req.session.username
+			login: req.session.login
 		});
 	})
-	.post(create, readAll, (req, res) => {
-		res.render("showcase", {
-			title: 'auto',
-			autos: req.autos,
-			username: req.session.username
-		});
+	.post(create, (req, res) => {
+		res.redirect('/');
 	});
 
 router.route('/:id')
-	.get(readById, (req, res) => res.send(req.auto))
-	.put(updateById, (req, res) => res.send('Auto successfully updated'))
-	.delete(deleteById, (req, res) => res.send('Auto successfully removed'));
+	.get(readById, (req, res) => 
+		res.render("auto", {
+			auto: req.auto,
+			login: req.session.login
+		})
+	)
+	.put(verifyToken, updateById, (req, res) => res.send('Auto successfully updated'))
+	.delete(verifyToken, deleteById, (req, res) => res.send('Auto successfully removed'));
 
 export default router;

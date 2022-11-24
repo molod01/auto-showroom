@@ -1,3 +1,31 @@
 <%- layout('layouts/layout.ejs')%>
-<div class="w-75 m-auto mt-3" style="min-height: 100%">
+<% if(auto.engineCapacity){
+    engineCapacity = auto.engineCapacity.toString();
+    engineCapacity.length > 1 ? 
+    engineCapacity += "L" : 
+    engineCapacity += '.0L'
+} %>
+<div class="w-75 mx-auto mt-3 mb-3" style="min-height: 100%"> 
+    <div class="container-md mx-6">
+        <div class="card">
+            <img class="card-img-top" style="max-height: 25em; object-fit: cover;" src="<%= auto.pictureURL %>" alt="auto" />
+                <div class="card-body mx-4">
+                    <div class="m-3 mb-3" style="display: inline-flex;">
+                        <h4 class="model"><%= auto.manufacturer %></h4><h4 style="font-weight: 600;"><%= auto.model %></h4>
+                        <small class="mx-2 mt-2"><%= auto.releaseYear %></small>
+                    </p>
+                    </div>
+                    <p style="font-size: 11pt;" class="card-text mx-3 mb-3">
+                        Engine capacity: <%= engineCapacity %>
+                    </p>
+                    <p style="font-size: 11pt;" class="card-text mx-3 mb-3">
+                        Color: <%= auto.color %>
+                    </p>
+                    <% if (auto.description) {%>
+                        <p class="card-text mx-3 mb-3"><small><%= auto.description %></small></p>
+                    <%}%>
+                    <p style="font-size: larger;" class="card-text mx-3 mb-3 price text-right"><%= auto.price.toLocaleString() %></p>
+            </div>
+        </div>
+    </div>
 </div>
