@@ -2,12 +2,9 @@
     <div class="w-75 mx-auto mt-5" style="min-height: 100%">
         <form action="/" method="get" class="w-100 mx-auto mt-5 mb-5">
             <div class="mb-3 text-center">
-                <!-- <label for="title" class="form-label">
-                <h4>Search</h4>
-            </label> -->
-                <input type="text" class="form-control" id="manufacturer" name="manufacturer" />
+                <input type="text" class="form-control" id="manufacturer" name="color" />
             </div>
-            <button type="submit" class="btn btn-outline-dark w-100">Пошук</button>
+            <button type="submit" class="btn btn-outline-dark w-100">Search</button>
         </form>
         <div class="row hidden-md-up my-5">
             <% if (autos.length) { %>
@@ -36,45 +33,9 @@
                         </a>
                     </div>
                     <%})%>
-                        <%}%>
+                <%}%>
         </div>
         <% if (login) { %>
-            <form action="/" method="post" class="w-100 mx-auto mb-5 mt-3">
-                <h4 class="text-center">Add auto</h4>
-                <div class="mb-3">
-                    <label for="model" class="form-label">Model</label>
-                    <input type="text" class="form-control" id="model" name="model" />
-                </div>
-                <div class="mb-3">
-                    <label for="manufacturer" class="form-label">Manufacturer</label>
-                    <input type="text" class="form-control" id="manufacturer" name="manufacturer" />
-                </div>
-                <div class="mb-3">
-                    <label for="releaseYear" class="form-label">Release Year</label>
-                    <input type="number" class="form-control" id="releaseYear" name="releaseYear" />
-                </div>
-                <div class="mb-3">
-                    <label for="engineCap" class="form-label">Engine Capacity</label>
-                    <input oninput="this.value=this.value.replace(/[^0-9,.]{2,}|[0-9]{2,}/g,'');" type="text" class="form-control"
-                        id="engineCap" name="engineCapacity" />
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form-control" id="price" name="price" />
-                </div>
-                <div class="mb-3">
-                    <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" id="color" name="color" />
-                </div>
-                <div class="mb-3">
-                    <label for="photo" class="form-label">Picture link</label>
-                    <input type="text" class="form-control" id="photo" name="pictureURL" />
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="description" name="description" />
-                </div>
-                <button type="submit" class="btn btn-outline-dark w-100">Add</button>
-            </form>
-            <% } %>
+            <%- include('partials/add-form.ejs') -%>
+        <% } %>
     </div>

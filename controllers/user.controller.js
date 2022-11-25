@@ -7,10 +7,8 @@ import { validationResult } from "express-validator";
 export const register = (req, res, next) => {
   const { login, password, confirmPassword, rememberMe } = req.body;
   const errors = validationResult(req);
-  console.log(req.body);
   if (!errors.isEmpty()) {
     res.render("register", {
-      title: "Register",
       login: req.session.login,
       errors: errors.array(),
       alreadyExists: false,
@@ -19,7 +17,6 @@ export const register = (req, res, next) => {
   } else if (password !== confirmPassword) {
     errors.confirmPassword.msg = "Passwords not equal";
     res.render("register", {
-      title: "Register",
       login: req.session.login,
       errors: errors.array(),
       alreadyExists: false,
@@ -29,7 +26,6 @@ export const register = (req, res, next) => {
     User.findOne({ login: login }).then((result) => {
       if (result) {
         res.render("register", {
-          title: "Register",
           login: req.session.login,
           errors: [],
           alreadyExists: true,
@@ -45,7 +41,7 @@ export const register = (req, res, next) => {
   })
     .then(() => {
       if (rememberMe) {
-        req.session.login = login;
+        res.redirect(307, '/login')
       }
       next();
     })
@@ -60,11 +56,10 @@ export const login = (req, res, next) => {
   User.findOne({ login: login })
     .then((user) => {
       if (user) {
-        console.log(user);
         const originalHash = user.password;
         const isValidPassword = bcrypt.compareSync(password, originalHash);
         if (isValidPassword) {
-          req.token = jwt.sign({ id: user.id }, config.SECRET_KEY, {
+          req.session.token = jwt.sign({ id: user.id }, config.SECRET_KEY, {
             expiresIn: 1000 * 60 * 60,
           });
           req.session.login = login;

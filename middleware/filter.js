@@ -1,5 +1,3 @@
-import Auto from "../models/auto.js";
-
 const filter = (req, res, next) => {
   const {
     manufacturer,

@@ -3,6 +3,7 @@ import multer from "multer";
 import methodOverride from "method-override";
 import filter from "../middleware/filter.js";
 import verifyToken from "../middleware/auth.js"
+import prepareUpdates from "../middleware/updates.js";
 import { Router } from "express";
 import { 
 	readAll, 
@@ -32,10 +33,10 @@ router.route('/')
 	.get(readAll, filter, (req, res) => {
 		res.render("showcase", {
 			autos: req.autos,
-			login: req.session.login
+			login: req.session.login,
 		});
 	})
-	.post(create, (req, res) => {
+	.post(verifyToken, create, (req, res) => {
 		res.redirect('/');
 	});
 
@@ -46,7 +47,8 @@ router.route('/:id')
 			login: req.session.login
 		})
 	)
-	.put(verifyToken, updateById, (req, res) => res.send('Auto successfully updated'))
-	.delete(verifyToken, deleteById, (req, res) => res.send('Auto successfully removed'));
+	.put(verifyToken, prepareUpdates, updateById, (req, res) => {
+		res.redirect('/' + req.params.id)})
+	.delete(verifyToken, deleteById, (req, res) => res.redirect('/'));
 
 export default router;
