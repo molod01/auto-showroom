@@ -1,60 +1,46 @@
 const filter = (req, res, next) => {
+  
   const {
-    manufacturer,
-    releaseYear,
-    minEngineCapacity,
-    maxEngineCapacity,
-    color,
+    manufacturers,
+    releaseYears,
+    engineCapacities,
+    colors,
     minPrice,
     maxPrice,
   } = req.query;
 
-  if (manufacturer) {
-    req.autos = req.autos.filter(
-      (c) => c.manufacturer.toLowerCase() === manufacturer.toLowerCase()
-    );
-  }
+  req.allAutos = req.autos;
 
-  if (releaseYear) {
+  if(manufacturers){
     req.autos = req.autos.filter(
-      (c) => c.yearManufactured === parseInt(yearManufactured)
+      a => manufacturers.map(a => a.toLowerCase()).includes(a.manufacturer.toLowerCase())
     );
   }
-
-  if (minEngineCapacity && maxEngineCapacity) {
+  if (releaseYears) {
     req.autos = req.autos.filter(
-      (c) =>
-        c.engineCapacity >= parseFloat(minEngineCapacity) &&
-        c.engineCapacity <= parseFloat(maxEngineCapacity)
+      a => releaseYears.map(Number).includes(a.releaseYear)
     );
   }
-  else if (minEngineCapacity) {
+  if (engineCapacities) {
     req.autos = req.autos.filter(
-      (c) => c.engineCapacity >= parseFloat(minEngineCapacity)
+      a => engineCapacities.map(Number).includes(a.engineCapacity)
     );
   }
-  else if (maxEngineCapacity) {
+  if (colors) {
     req.autos = req.autos.filter(
-      (c) => c.engineCapacity <= parseFloat(maxEngineCapacity)
+      a => colors.map(a => a.toLowerCase()).includes(a.color.toLowerCase())
     );
   }
-
-  if (color) {
-    req.autos = req.autos.filter(
-      (c) => c.color.toLowerCase() === color.toLowerCase()
-    );
-  }
-
   if (minPrice && maxPrice) {
     req.autos = req.autos.filter(
-      (c) => c.price >= parseInt(minPrice) && c.price <= parseInt(maxPrice)
+      a => a.price >= parseInt(minPrice) && a.price <= parseInt(maxPrice)
     );
   }
   else if (minPrice) {
-    req.autos = req.autos.filter((c) => c.price >= parseInt(minPrice));
+    req.autos = req.autos.filter(a => a.price >= parseInt(minPrice));
   }
   else if (maxPrice) {
-    req.autos = req.autos.filter((c) => c.price <= parseInt(maxPrice));
+    req.autos = req.autos.filter(a => a.price <= parseInt(maxPrice));
   }
 
   next();

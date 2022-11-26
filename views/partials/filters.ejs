@@ -1,0 +1,84 @@
+<% if(filters) {%>
+    <form id="filter" method="get" class="w-100 mx-auto mt-3 mb-3">
+        <h4 class="text-center mb-3">Filters</h4>
+        <div>
+            <p>
+                <button class="btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="true" aria-controls="collapse">
+                    Manufacturer
+                </button>
+            </p>
+            <div class="collapse p-3" id="collapse" >
+                <% filters.manufacturers.forEach(man => { %>
+                    <div class="form-check">
+                        <%if(query.manufacturers && query.manufacturers.includes(man)){%>
+                            <input id="<%=man%>" class="form-check-input" type="checkbox" checked="checked" name="manufacturers[]" value="<%=man%>">
+                        <%} else { %>
+                            <input id="<%=man%>" class="form-check-input" type="checkbox" name="manufacturers[]" value="<%=man%>">
+                        <%}%>
+                        <label class="form-check-label" for="<%=man%>"><%=man%></label>
+                    </div>
+                <%})%>
+            </div>
+        </div>
+        <div>
+            <p>
+                <button class="btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse">
+                    Release Year
+                </button>
+            </p>
+            <div class="collapse p-3" id="collapse1" >
+                <% filters.releaseYears.forEach(year => { %>
+                    <div class="form-check">
+                        <%if(query.releaseYears && query.releaseYears.includes(year.toString())){%>
+                            <input class="form-check-input" type="checkbox" checked="checked" name="releaseYears[]" value="<%=year%>">
+                        <%} else { %>
+                            <input class="form-check-input" type="checkbox" name="releaseYears[]" value="<%=year%>">
+                        <%}%>
+                        <label class="form-check-label" for="<%=year%>"><%=year%></label>
+                    </div>
+                <%})%>
+            </div>
+        </div>
+        <div>
+            <p>
+                <button class="btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse">
+                    Color
+                </button>
+            </p>
+            <div class="collapse p-3" id="collapse2" >
+            <% filters.colors.forEach(color => { %>
+                <div class="form-check">
+                    <%if(query.colors && query.colors.includes(color)){%>
+                        <input class="form-check-input" type="checkbox" checked="checked" name="colors[]" value="<%=color%>">
+                    <%} else { %>
+                        <input class="form-check-input" type="checkbox" name="colors[]" value="<%=color%>">
+                    <%}%>
+                    <label class="form-check-label" for="<%=color%>"><%=color%></label>
+                </div>
+            <%})%>
+        </div>
+        </div>
+        <div>
+            <p>
+                <button class="btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse">
+                    Engine Capacity
+                </button>
+            </p>
+            <div class="collapse p-3" id="collapse3" >
+                <% filters.engineCapacities.forEach(ec => { %>
+                    <div class="form-check">
+                        <%if(query.engineCapacities && query.engineCapacities.includes(ec.toString())){%>
+                            <input class="form-check-input" type="checkbox" checked="checked" name="engineCapacities[]" value="<%=ec%>">
+                        <%} else { %>
+                            <input class="form-check-input" type="checkbox" name="engineCapacities[]" value="<%=ec%>">
+                        <%}%><label class="form-check-label" for="<%=ec%>"><%=ec%>L</label>
+                    </div>
+                <%})%>
+            </div>
+        </div>
+        <div class="btn-group w-100">
+            <input type="reset" class="btn btn-outline-dark btn-light w-50"/>
+            <button type="submit" class="btn btn-outline-dark btn-light w-50">Search</button>
+        </div>
+    </form>
+<%}%>

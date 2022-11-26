@@ -13,6 +13,20 @@ import {
 	deleteById
 } from "../controllers/auto.controller.js"
 
+const makeFilters = (autos) => {
+	return {
+		manufacturers: [... new Set(autos.map(auto => auto.manufacturer))],
+		minPrice: Math.min(...autos.map(auto => auto.price)),
+		maxPrice: Math.max(...autos.map(auto => auto.price)),
+		colors: [... new Set(autos.map(auto => auto.color))],
+		engineCapacities: [... new Set(autos
+			.filter(auto => auto.engineCapacity )
+			.map(auto => auto.engineCapacity))
+		],
+		releaseYears:  [... new Set(autos.map(auto => auto.releaseYear))],
+	}
+}
+
 const router = Router();
 const __dirname = path.resolve();
 
@@ -34,6 +48,8 @@ router.route('/')
 		res.render("showcase", {
 			autos: req.autos,
 			login: req.session.login,
+			filters: makeFilters(req.allAutos),
+			query: req.query
 		});
 	})
 	.post(verifyToken, create, (req, res) => {
