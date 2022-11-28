@@ -1,6 +1,7 @@
 <% if(filters) {%>
     <form id="filter" method="get" class="w-100 mx-auto mt-3 mb-3" style="justify-content: space-between;">
         <h4 class="text-center mb-3">Filters</h4>
+        <%if(filters.manufacturers){ %>
         <div class="my-2">
             <button class="btn-outline-secondary btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="true" aria-controls="collapse">Manufacturer</button>
             <div class="collapse p-3 grid" id="collapse" >
@@ -14,19 +15,23 @@
                 <%})%>
             </div>
         </div>
+        <%}%>
+        <%if(filters.releaseYears){ %>
         <div class="my-2">
             <button class="btn-outline-secondary btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse">Release Year</button>
             <div class="collapse p-3 grid" id="collapse1" >
                 <% filters.releaseYears.forEach(year => { %>
                     <div class="form-check g-col-4 mx-auto">
                         <input class="form-check-input" type="checkbox" name="releaseYears[]" value="<%=year%>" 
-                        <%if(query.releaseYears && query.releaseYears.includes(year)){%> checked="checked">
+                        <%if(query.releaseYears && query.releaseYears.includes(year.toString())){%> checked="checked">
                         <%} else { %>><%}%>
                         <label class="form-check-label" for="<%=year%>"><%=year%></label>
                     </div>
                 <%})%>
             </div>
         </div>
+        <%}%>
+        <%if(filters.colors){ %>
         <div class="my-2">
             <button class="btn-outline-secondary btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse">Color</button>
             <div class="collapse p-3 grid" id="collapse2">
@@ -40,6 +45,8 @@
             <%})%>
             </div>
         </div>
+        <%}%>
+        <%if(filters.engineCapacities){ %>
         <div class="my-2">
             <button class="btn-outline-secondary btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse">Engine Capacity</button>
             <div class="collapse p-3 grid" id="collapse3" >
@@ -53,19 +60,20 @@
                 <%})%>
             </div>
         </div>
+        <%}%>
         <div class="my-2">
             <button class="btn-outline-secondary btn btn-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="true" aria-controls="collapse">Price</button>
             <div class="collapse" id="collapse4" >
                 <div class="input-group my-2">
                     <span class="input-group-text">$</span>
-                    <input onclick="if(value == ''){value='<%=filters.minPrice%>'}" class="form-control" type="number" name="minPrice" placeholder="<%=filters.minPrice%>" min="<%=filters.minPrice%>"
+                    <input onclick="if(value == ''){value='<%=filters.minPrice%>'; name='minPrice'}" class="form-control" type="number" placeholder="<%=filters.minPrice%>" min="<%=filters.minPrice%>"
                     <%if(query.minPrice){%> 
-                        value='<%=filters.minPrice%>'
+                        name="minPrice" value='<%=filters.minPrice%>'
                     <%}%>>
                     <span class="input-group-text">$</span>
-                    <input onclick="if(value == ''){value='<%=filters.maxPrice%>'}" class="form-control" type="number" name="maxPrice" placeholder="<%=filters.maxPrice%>" max="<%=filters.maxPrice%>"
+                    <input onclick="if(value == ''){value='<%=filters.maxPrice%>'; name='maxPrice'}" class="form-control" type="number" placeholder="<%=filters.maxPrice%>" max="<%=filters.maxPrice%>"
                     <%if(query.maxPrice){%> 
-                        value='<%=filters.maxPrice%>'
+                        name="maxPrice" value='<%=filters.maxPrice%>'
                     <%}%>>
                 </div>
             </div>          
@@ -77,10 +85,11 @@
     </form>
 <%}%>
 <script>
-    const prices = document.querySelectorAll('#collapse4 input');
     const clearCheckboxes = () => {
         Array.from(document.querySelectorAll('input[type=checkbox]'))
         .map(ch => ch.checked = '');
+        Array.from(document.querySelectorAll('input[type=number]'))
+        .map(price => price.removeAttribute('name'))
     }
     let filterSections = [
         document.querySelectorAll('#collapse input'),
@@ -89,9 +98,7 @@
         document.querySelectorAll('#collapse3 input'),
     ];
     let sections = document.querySelectorAll('.collapse')
-    if(prices[0].value || prices[1].value){
-        sections[5].classList.add('show');
-    }
+
     for(let i = 0; i < filterSections.length; i++){
         if(Array.from(filterSections[i]).filter(ch => ch.checked === true).length > 0){
             sections[i + 1].classList.add('show');

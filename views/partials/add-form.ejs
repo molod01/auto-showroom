@@ -28,7 +28,7 @@
         </div>
         <div class="col mb-3">
             <label for="color" class="form-label">Color</label>
-            <input type="text" class="form-control" id="color" name="color" />
+            <input onfocusout="preSearch()" type="text" class="form-control" id="color" name="color" />
         </div>
     </div>
     <div class="mb-3">
@@ -41,3 +41,35 @@
     </div>
     <button type="submit" class="btn btn-outline-dark w-100">Sumbit</button>
 </form>
+<script>
+    const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'b9ae5338cdmsh5a9a21091cb064fp193584jsnbd73bf8dbe29',
+          'X-RapidAPI-Host': 'bing-image-search1.p.rapidapi.com'
+        }
+      };
+    const getImage = (keyword) => {
+        return fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${keyword}&count=1`, options)
+        .then(response => response.json())
+        .then(json => json.value[0].contentUrl)
+      }
+    const preSearch = () => {
+        let carPreInfo = {
+            model: document.querySelector('#model').value,
+            manufacturer: document.querySelector('#manufacturer').value,
+            releaseYear: document.querySelector('#releaseYear').value,
+            color: document.querySelector('#color').value
+
+        };
+        carPreInfo = Object.values(carPreInfo);
+        if(carPreInfo.filter(e => e !== "").length === 4){
+            getImage(carPreInfo.toString())
+            .then(result =>
+                document.querySelector('#photo').value = result
+            );
+        }
+    }
+    
+    
+</script>

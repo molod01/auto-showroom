@@ -1,4 +1,18 @@
-const filter = (req, res, next) => {
+export const makeFilters = (autos) => {
+	return {
+		manufacturers: [... new Set(autos.map(auto => auto.manufacturer))].sort(),
+    releaseYears:  [... new Set(autos.map(auto => auto.releaseYear))].sort(),
+		colors: [... new Set(autos.map(auto => auto.color))].sort(),
+		engineCapacities: [... new Set(autos
+			.filter(auto => auto.engineCapacity )
+			.map(auto => auto.engineCapacity))
+		].sort(),
+    minPrice: Math.min(...autos.map(auto => auto.price)),
+    maxPrice: Math.max(...autos.map(auto => auto.price)),
+	}
+}
+
+export const filter = (req, res, next) => {
   
   const {
     manufacturers,
@@ -6,7 +20,7 @@ const filter = (req, res, next) => {
     engineCapacities,
     colors,
     minPrice,
-    maxPrice,
+    maxPrice
   } = req.query;
 
   req.allAutos = req.autos;
@@ -46,4 +60,3 @@ const filter = (req, res, next) => {
   next();
 };
 
-export default filter;

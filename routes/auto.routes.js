@@ -1,7 +1,7 @@
 import path from "path";
 import multer from "multer";
 import methodOverride from "method-override";
-import filter from "../middleware/filter.js";
+import {filter, makeFilters} from "../middleware/filter.js";
 import verifyToken from "../middleware/auth.js"
 import prepareUpdates from "../middleware/updates.js";
 import { Router } from "express";
@@ -13,19 +13,6 @@ import {
 	deleteById
 } from "../controllers/auto.controller.js"
 
-const makeFilters = (autos) => {
-	return {
-		manufacturers: [... new Set(autos.map(auto => auto.manufacturer))],
-		minPrice: Math.min(...autos.map(auto => auto.price)),
-		maxPrice: Math.max(...autos.map(auto => auto.price)),
-		colors: [... new Set(autos.map(auto => auto.color))],
-		engineCapacities: [... new Set(autos
-			.filter(auto => auto.engineCapacity )
-			.map(auto => auto.engineCapacity))
-		],
-		releaseYears:  [... new Set(autos.map(auto => auto.releaseYear))],
-	}
-}
 
 const router = Router();
 const __dirname = path.resolve();
@@ -38,7 +25,6 @@ router.use(
     if (req.body && typeof req.body === "object" && "_method" in req.body) {
       const method = req.body._method;
       delete req.body._method;
-
       return method;
     }
   })
