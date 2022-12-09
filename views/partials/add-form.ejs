@@ -3,37 +3,36 @@
     <div class="row">
         <div class="col my-3">
             <label for="model" class="form-label">Model</label>
-            <input type="text" class="form-control" id="model" name="model" />
+            <input type="text" class="form-control" id="model" name="model" required />
         </div>
         <div class="col my-3">
             <label for="manufacturer" class="form-label">Manufacturer</label>
-            <input type="text" class="form-control" id="manufacturer" name="manufacturer" />
+            <input type="text" class="form-control" id="manufacturer" name="manufacturer" required />
         </div>
     </div>
     <div class="row">
         <div class="col mb-3">
             <label for="releaseYear" class="form-label">Release Year</label>
-            <input type="number" class="form-control" id="releaseYear" name="releaseYear" />
+            <input type="number" class="form-control" id="releaseYear" name="releaseYear" required />
         </div>
         <div class="col mb-3">
             <label for="engineCap" class="form-label">Engine Capacity</label>
-            <input oninput="this.value=this.value.replace(/[^0-9,.]{2,}|[0-9]{2,}/g,'');" type="text" class="form-control"
-                id="engineCap" name="engineCapacity" />
+            <input type="text" class="form-control" id="engineCap" name="engineCapacity" required />
         </div>
     </div>
     <div class="row">
         <div class="col mb-3">
             <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" id="price" name="price" />
+            <input type="number" class="form-control" id="price" name="price" required />
         </div>
         <div class="col mb-3">
             <label for="color" class="form-label">Color</label>
-            <input onfocusout="preSearch()" type="text" class="form-control" id="color" name="color" />
+            <input onfocusout="preSearch()" type="text" class="form-control" id="color" name="color" required />
         </div>
     </div>
     <div class="mb-3">
         <label for="photo" class="form-label">Picture link</label>
-        <input type="text" class="form-control" id="photo" name="pictureURL" />
+        <input type="text" class="form-control" id="photo" name="pictureURL" required />
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
@@ -45,15 +44,15 @@
     const options = {
         method: 'GET',
         headers: {
-          'X-RapidAPI-Key': 'b9ae5338cdmsh5a9a21091cb064fp193584jsnbd73bf8dbe29',
-          'X-RapidAPI-Host': 'bing-image-search1.p.rapidapi.com'
+            'X-RapidAPI-Key': 'b9ae5338cdmsh5a9a21091cb064fp193584jsnbd73bf8dbe29',
+            'X-RapidAPI-Host': 'bing-image-search1.p.rapidapi.com'
         }
-      };
+    };
     const getImage = (keyword) => {
         return fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${keyword}&count=1`, options)
-        .then(response => response.json())
-        .then(json => json.value[0].contentUrl)
-      }
+            .then(response => response.json())
+            .then(json => json.value[0].contentUrl)
+    }
     const preSearch = () => {
         let carPreInfo = {
             model: document.querySelector('#model').value,
@@ -63,13 +62,13 @@
 
         };
         carPreInfo = Object.values(carPreInfo);
-        if(carPreInfo.filter(e => e !== "").length === 4){
+        if (carPreInfo.filter(e => e !== "").length === 4) {
             getImage(carPreInfo.toString())
-            .then(result =>
-                document.querySelector('#photo').value = result
-            );
+                .then(result =>
+                    document.querySelector('#photo').value = result
+                );
         }
     }
-    
-    
+
+
 </script>

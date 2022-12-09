@@ -24,7 +24,7 @@
                       </small>
                   </p>
                   <p class="price card-text mx-3 text-end">
-                    <%= auto.price.toLocaleString()%></p>
+                    <%= auto.price %></p>
                 </div>
               </div>
             </a>
@@ -36,3 +36,11 @@
       <%- include('partials/add-form.ejs') -%>
     <% } %>
   </div>
+  <script>
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+    const prices = document.getElementsByClassName("price")
+    Array.from(prices).map(price => price.textContent = formatter.format(parseFloat(price.textContent)));
+</script>

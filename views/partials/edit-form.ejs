@@ -1,4 +1,4 @@
-<div class="card p-5">
+<div style="z-index: 1" class="card p-5">
     <h4 class="text-center">Edit auto</h4>
     <form method="post" class="mx-auto mb-5 mt-3">
         <input type="hidden" name="_method" value="PUT">
@@ -19,8 +19,7 @@
             </div>
             <div class="col mb-3">
                 <label for="engineCap" class="form-label">Engine Capacity</label>
-                <input value="<%=auto.engineCapacity%>" oninput="this.value=this.value.replace(/[^0-9,.]{2,}|[0-9]{2,}/g,'');" type="text" class="form-control"
-                    id="engineCap" name="engineCapacity" />
+                <input value="<%=auto.engineCapacity%>" type="text" class="form-control" id="engineCap" name="engineCapacity" />
             </div>
             </div>
         <div class="row">
@@ -41,6 +40,9 @@
             <label for="description" class="form-label">Description</label>
             <input value="<%=auto.description%>" type="text" class="form-control" id="description" name="description" />
         </div>
-        <button type="submit" class="btn btn-outline-dark w-100">Edit</button>
+        <div class="btn-group w-100">
+            <button type="submit" class="btn btn-outline-dark btn-outline-secondary">Edit</button>
+            <button type="button" onclick="closeEdit()" class="btn btn-outline-dark btn-outline-secondary">Close</button>
+          </div>
     </form>
 </div>
